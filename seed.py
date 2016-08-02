@@ -45,15 +45,15 @@ def load_movies():
 
     # Read u.item file and insert data
     for row in open("seed_data/u.item"):
-        row = row.rstrip()
+        row = "7|Twelve Monkeys (1995)|01-Jan-1995||http://us.imdb.com/M/title-exact?Twelve%20Monkeys%20(1995)|0|0|0|0|0|0|0|0|1|0|0|0|0|0|0|1|0|0|0"
+        row_list = []
+        row_list = row.rstrip().split('|')
+        row_list = row_list[0:-19]
+
         #ways to tackle genres at end of row:
 
-        # row -= row[-39]
-        #tuples
-        #create an array per row, index each of the first few items as actual attrs, take remainder as garbage
-
-
-        movie_id, title, released_at, imdb_url = row.split("|")
+        movie_id, title, released_at = row_list[0:3]
+        imdb_url = row_list[4]
 
         if released_at:
             released_at = datetime.datetime.strptime(released_at, "%d-%b-%Y")
