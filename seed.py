@@ -45,7 +45,6 @@ def load_movies():
 
     # Read u.item file and insert data
     for row in open("seed_data/u.item"):
-        row = "7|Twelve Monkeys (1995)|01-Jan-1995||http://us.imdb.com/M/title-exact?Twelve%20Monkeys%20(1995)|0|0|0|0|0|0|0|0|1|0|0|0|0|0|0|1|0|0|0"
         row_list = []
         row_list = row.rstrip().split('|')
         row_list = row_list[0:-19]
@@ -56,7 +55,7 @@ def load_movies():
         imdb_url = row_list[4]
 
         if released_at:
-            released_at = datetime.datetime.strptime(released_at, "%d-%b-%Y")
+            released_at = datetime.strptime(released_at, "%d-%b-%Y")
 
         else:
             released_at = None
@@ -83,12 +82,11 @@ def load_ratings():
     # Read u.data file and insert data
     for row in open("seed_data/u.data"):
         row = row.rstrip()
-        rating_id, movie_id, user_id, score = row.split(" ")
+        user_id, movie_id, score, timestamp = row.split("\t")
 
-        rating = Rating(rating_id=rating_id,
-                    movie_id=movie_id,
-                    user_id=user_id,
-                    score=score)
+        rating = Rating(user_id=user_id,
+                movie_id=movie_id,
+                score=score)
 
         # We need to add to the session or it won't ever be stored
         db.session.add(rating)
