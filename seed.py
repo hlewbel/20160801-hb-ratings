@@ -39,6 +39,7 @@ def load_users():
 def load_movies():
     """Load movies from u.item into database."""
 
+    print "Movies"
     # Delete all rows in table, so if we need to run this a second time,
     # we won't be trying to add duplicate users
     Movie.query.delete()
@@ -53,6 +54,8 @@ def load_movies():
 
         movie_id, title, released_at = row_list[0:3]
         imdb_url = row_list[4]
+
+        title = title[:-7]
 
         if released_at:
             released_at = datetime.strptime(released_at, "%d-%b-%Y")
@@ -74,6 +77,8 @@ def load_movies():
 
 def load_ratings():
     """Load ratings from u.data into database."""
+
+    print "Ratings"
     # Delete all rows in table, so if we need to run this a second time,
     # we won't be trying to add duplicate users
     

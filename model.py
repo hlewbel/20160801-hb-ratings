@@ -24,13 +24,13 @@ class User(db.Model):
     zipcode = db.Column(db.String(15), nullable=True)
 
     def __repr__(self):
-        """Provde helpful representation when printed """
+        """Provide helpful representation when printed """
 
         return "<User user_id=%s email=%s>" % (self.user_id, self.email)
 
-# Put your Movie and Rating model classes here.
+
 class Movie(db.Model):
-    """Movie something """
+    """Movie being rated."""
 
     __tablename__ = "movies"
 
@@ -39,17 +39,32 @@ class Movie(db.Model):
     released_at = db.Column(db.DateTime, nullable=True)
     imdb_url = db.Column(db.String(1000), nullable=True)
 
+    def __repr__(self):
+        """Provide helpful representation when printed """
+
+        return "<Movie movie_id=%s title=%s released_at=%s imdb_url=%s>" % (self.movie_id, self.title, self.released_at, self.imdb_url)
 
 class Rating(db.Model):
-    """ Rating something. """
+    """Rating for movie."""
 
     __tablename__ = "ratings"
 
+    #If autoincrement=True and seed file is re-run the records will be cleared, but sequential
+    #numbering will not restart. Drop db & re-seed to fix.
+    
     rating_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    movie_id = db.Column(db.Integer, nullable=False)
-    user_id = db.Column(db.Integer, nullable=False)
+    movie_id = db.Column(db.Integer, db.ForeignKey('movies.movie_id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     score = db.Column(db.Integer, nullable=False)
 
+    #SQLAlchemy: The below joins user to ratings by user_id; joins movie by movie_id
+    user = db.relationship('User', backref=db.backref('ratings', order_by=rating_id))
+    movie = db.relationship('Movie', backref=db.backref('ratings', order_by=rating_id))
+    
+    def __repr__(self):
+        """Provide helpful representation when printed """
+
+        return "<Rating rating_id=%s movie_id=%s user_id=%s score=%s>" % (self.rating_id, self.movie_id, self.user_id, self.score)
 
 ##############################################################################
 # Helper functions
