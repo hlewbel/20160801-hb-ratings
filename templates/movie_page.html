@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- movie object being passed in - this doesnt match for server.py when sending in movie_id -->
+
+    <h2>{{ movie.title }}</h2>
+    
+    <h3>Movie released: {{ movie.released_at }} </h3>
+    <h3><a href="{{ movie.imdb_url }}">IMDB</a></h3>
+
+    <form action="/movies/{{ movie.movie_id }}" method="POST">
+        <label for='score'>Score:
+
+          <select name="score">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+      
+      </label><br>
+
+        <input value"Submit" type="submit"></input>
+    </form>
+
+
+{% endblock %}

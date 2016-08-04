@@ -109,12 +109,26 @@ def process_login():
         return redirect('/register')
 
 
-@app.route("/logout", methods=["POST"])
+@app.route("/logout")
 def logout():
     """Logs user out of site."""        
 
-    session.pop('user_email', None) #which do we pop? key or value of session?
+    session.pop('user_email', None) #pop the key from the session
     flash('You\'ve been successfully logged out!')
+    return redirect('/')
+
+@app.route("/movies/<int:movie_id>")
+def movie_detail(movie_id):
+    """Shows movie details for individual movie"""
+
+    return render_template('movie_list.html', movie_id=movie_id)
+
+@app.route("/all_movies")
+def movies_all():
+    """ """
+
+    movies = Movie.query.all()
+    return render_template("movie_list.html", movies=movies)
 
 
 if __name__ == "__main__":
