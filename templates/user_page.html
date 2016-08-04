@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h2>{{ user.email }}</h2>
+    <h3>Age: {{ user.age }}, Zipcode: {{ user.zipcode }}</h3>
+    <ul>
+      {% for rating in user.ratings %}
+          <li> <!-- With SQLAlchemy, we can use 'user.[some attr]' -->
+              <a href="/movies/{{ movie.movie_id }}">
+                {{ rating.movie.title }} ({{ rating.movie.score }})
+              </a>
+          </li>
+      {% endfor %}
+    </ul>
+
+{% endblock %}

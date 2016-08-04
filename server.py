@@ -37,6 +37,13 @@ def user_list():
     return render_template("user_list.html", users=users)
 
 
+@app.route('/users/<int:user_id>')
+def show_user():
+    """Shows details of a selected user."""
+
+    return render_template('user_page.html')
+
+
 @app.route("/register", methods=['GET'])
 def register_form():
     """Render registration form."""
@@ -67,14 +74,9 @@ def register_process():
     else: #come back to this in afternoon
         db.session.add(new_user) #write new user to db
         db.session.commit()
-        session['user_has_been_added']= new_user.email
+        session['user_has_been_added']= new_user.email #handling Flask session like library, index key
         flash("Welcome! Your account has been created")
         return redirect('/') #redirect to homepage
-
-    #this is where user verification happens
-    #add user to db.session, commit changes
-    #flash if user exists (some msg)
-    #flash if new user (some msg)
 
 
 @app.route("/login", methods=["GET"])
@@ -99,12 +101,20 @@ def process_login():
     is_user = User.query.filter((email=='email') & (password=='password')).first()
 
     if is_user is not None:
-        session['user_has_been_added']= is_user.email
+        session['user_email']= is_user.email
         flash('You\'ve been successfully logged in!')
         return redirect('/')
     else:
         flash('Sorry, we could not find you. Please register.')
         return redirect('/register')
+
+
+@app.route("/logout", methods=["POST"])
+def logout():
+    """Logs user out of site."""        
+
+    session.pop('user_email', None) #which do we pop? key or value of session?
+    flash('You\'ve been successfully logged out!')
 
 
 if __name__ == "__main__":
