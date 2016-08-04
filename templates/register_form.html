@@ -3,40 +3,18 @@
 
 
 <!-- Prevent Default on form submission to do ajax call first -->
+<!-- Change value to placeholder in form -->
 
     <form action="/register" method="POST">
-        <label for='username' value='Username: '><input type='text' name='username' value='username' id='username'></label>
+        <label for='email' class='register-label'>Email: <input type='text' name='email' placeholder='email' id='email' required autofocus></label>
 
-        <label for='password' value='Password: '><input type='text' name='password' value='password' id='password'></label>
+        <label for='password' class='register-label'>Password: <input type='text' name='password' placeholder='password' id='password' required></label>
+
+        <label for='age' class='register-label'>Age: <input type='text' name='age' placeholder='age' id='age' required></label>
+
+        <label for='zipcode' class='register-label'>Zipcode: <input type='text' name='zipcode' placeholder='zipcode' id='zipcode' required></label>
+
         <submit value="Login" id="login-submit">
     </form>
-
-
-<!--     {% if user in users %}
-
-        <script>
-
-        function loginUser(data) {
-            grab data from form, query db for username
-            if in db, login (and redirect to homepage)
-            if not in db, add to serer db via post, (and redirect to homepage)
-        }
-
-        function existingUser() {
-            $.post('/register', loginUser)
-            return data // placeholder for data we want to get
-        }
-
-        $('#username')
-
-        {{ user.email }} ({{ user.user_id }}
-
-        </script>
-
-    if statement here, check if existing in db
-
-    else, add new user
-
-    if passed, confirm added, redirect to homepage -->
 
 {% endblock %}
